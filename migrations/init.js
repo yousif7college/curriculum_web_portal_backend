@@ -13,13 +13,13 @@ export function up(knex) {
 
         knex.schema.createTableIfNotExists('colleges', (table) => {
             table.increments('id').primary();
-            table.string('college_name').notNullable();
+            table.string('name').notNullable();
             table.timestamps(true, true);
         }),
 
         knex.schema.createTableIfNotExists('departments', (table) => {
             table.increments('id');
-            table.string('department_name').notNullable();
+            table.string('name').notNullable();
             table.integer('college_id').unsigned().notNullable().index().references('id').inTable('colleges');
             table.timestamps(true, true);
         }),

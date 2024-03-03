@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import coursesRouter from './src/routes/courses.route.js';
+import globalRouter from './src/routes/global.route.js';
 
 
 const app = express();
@@ -17,7 +17,37 @@ app.get('/', (req, res) => {
     res.json({ 'message': 'ok' });
 })
 
-app.use('/courses', coursesRouter);
+
+app.use('/colleges', (req, res, next) => {
+    req.tableName = "colleges";
+    globalRouter(req, res, next);
+
+});
+
+app.use('/courses', (req, res, next) => {
+    req.tableName = "courses";
+    globalRouter(req, res, next);
+});
+
+app.use('/departments', (req, res, next) => {
+    req.tableName = "departments";
+    globalRouter(req, res, next);
+});
+
+app.use('/teachers', (req, res, next) => {
+    req.tableName = "teachers";
+    globalRouter(req, res, next);
+
+});
+
+app.use('/users', (req, res, next) => {
+    req.tableName = "users";
+    globalRouter(req, res, next);
+
+});
+
+
+// app.use('/colleges', globalRouter);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
