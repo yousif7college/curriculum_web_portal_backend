@@ -26,6 +26,7 @@ export function up(knex) {
 
         knex.schema.createTableIfNotExists('courses', (table) => {
             table.increments('id').primary();
+            table.string('file_url');
             table.string('code').notNullable();
             table.integer('department_id').unsigned().notNullable().index().references('id').inTable('departments');
             table.enu('type', ['practical', 'theoretical']).defaultTo('theoretical');

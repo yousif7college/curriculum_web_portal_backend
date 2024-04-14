@@ -1,6 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import globalRouter from './src/routes/global.route.js';
+import coursesRouter from './src/routes/courses.route.js';
+import authRouter from './src/routes/auth.route.js';
+
 
 
 const app = express();
@@ -13,10 +16,20 @@ app.use(
     })
 );
 
+
+// allow CORS
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+    next();
+});
+
 app.get('/', (req, res) => {
     res.json({ 'message': 'ok' });
 })
 
+app.use('/auth', authRouter);
 
 app.use('/colleges', (req, res, next) => {
     req.tableName = "colleges";
@@ -26,7 +39,7 @@ app.use('/colleges', (req, res, next) => {
 
 app.use('/courses', (req, res, next) => {
     req.tableName = "courses";
-    globalRouter(req, res, next);
+    coursesRouter(req, res, next);
 });
 
 app.use('/departments', (req, res, next) => {

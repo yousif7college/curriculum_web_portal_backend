@@ -38,7 +38,7 @@ async function create(row, tableName) {
     throw new Error(`Error in creating in ${tableName} table`);
   }
 
-  return { message: `Created successfully in ${tableName} table`, data: row };
+  return { message: `Created successfully in ${tableName} table`, data: { id: result[0], ...row } };
 }
 
 async function update(id, row, tableName) {
@@ -66,10 +66,21 @@ async function remove(id, tableName) {
   return { message: `Deleted successfully in ${tableName} table`, data: row };
 }
 
+async function getOneByColumn(column, value, tableName) {
+  const row = await knex(tableName).where(column, value).first();
+
+  if (!row) {
+    throw new Error(`No record found in ${tableName} table`);
+  }
+
+  return row;
+}
+
 export default {
   getAll,
   getOne,
   create,
   update,
-  remove
+  remove,
+  getOneByColumn
 }
