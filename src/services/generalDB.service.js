@@ -21,6 +21,25 @@ async function getAll(page = 1, tableName) {
   };
 }
 
+async function getAllByColumn(column, value, page = 1, tableName) {
+  console.log("🍅", { column, value, tableName });
+  const rows = await knex(tableName)
+    .select('*')
+    .where(column, "=", value)
+
+
+  const total = rows?.count || 0;
+
+  return {
+    data: rows,
+    meta: {
+      page,
+      total: total,
+      pageSize: config.PAGE_SIZE
+    }
+  };
+}
+
 async function getOne(id, tableName) {
   const row = await knex(tableName).where({ id }).first();
 
@@ -82,5 +101,6 @@ export default {
   create,
   update,
   remove,
-  getOneByColumn
+  getOneByColumn,
+  getAllByColumn
 }

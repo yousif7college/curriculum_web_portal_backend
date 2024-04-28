@@ -10,7 +10,7 @@ const dbConfig = {
 };
 
 const tableConfig = {
-  PAGE_SIZE: 10,
+  PAGE_SIZE: 50,
 };
 
 export { dbConfig as default, tableConfig };
